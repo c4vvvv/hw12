@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>留言板</title>
   <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.3.0/dist/index.min.css" />
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Gloria Hallelujah', cursive;
-      background-color: #f1f1f1; /* 米色背景 */
-      color: #333; /* 深灰色文字 */
+      background-color: #f9f9f9;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -21,46 +19,48 @@
     }
 
     .container {
-      background-color: #ffffff; /* 白色背景 */
+      background-color: #ffffff;
       padding: 20px;
       border-radius: 12px;
       width: 100%;
       max-width: 600px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      border: 3px solid #f0e1c6; /* 米色邊框 */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border: 3px solid #aee1d6; /* 新的邊框顏色 */
     }
 
     h1 {
       text-align: center;
       font-size: 2.5em;
       margin-bottom: 20px;
-      color: #f0e1c6; /* 米色 */
+      color: #571f2b; /* 新的標題顏色 */
     }
 
     textarea {
-      width: 100%;
+      width: 95%;
       height: 100px;
       padding: 10px;
       font-family: 'Gloria Hallelujah', cursive;
       font-size: 16px;
-      background-color: #f9f9f9; /* 米色背景 */
-      border: 1px solid #ddd; /* 淺灰色邊框 */
+      background-color: #aee1d6; /* 新的背景顏色 */
+      border: 1px solid #ddd;
       border-radius: 8px;
-      color: #333; /* 深灰文字 */
+      color: #571f2b; /* 新的字體顏色 */
       resize: none;
       outline: none;
+      display: block;
+      margin: 0 auto; /* 使 textarea 水平置中 */
     }
 
     textarea:focus {
-      border-color: #f0e1c6; /* 米色焦點邊框 */
+      border-color: #571f2b; /* 新的聚焦邊框顏色 */
     }
 
     button {
       margin-top: 10px;
       width: 100%;
       padding: 10px;
-      background-color: #f0e1c6; /* 米色按鈕 */
-      color: #333; /* 深灰色文字 */
+      background-color: #aee1d6; /* 新的按鈕背景顏色 */
+      color: #571f2b; /* 新的按鈕字體顏色 */
       border: none;
       border-radius: 8px;
       font-size: 18px;
@@ -69,138 +69,101 @@
     }
 
     button:hover {
-      background-color: #e0cba0; /* 更深的米色 */
+      background-color: #7baaf7; /* 按鈕懸停時的顏色 */
     }
 
     .message {
-      background-color: #f9f9f9; /* 米色背景 */
+      background-color: #aee1d6; /* 新的留言背景顏色 */
       margin-top: 15px;
       padding: 15px;
       border-radius: 8px;
-      word-break: break-word;
-      white-space: pre-wrap;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      border: 1px solid #ddd; /* 淺灰色邊框 */
+      border: 1px solid #ddd;
       position: relative;
     }
 
-    .message span {
-      flex-grow: 1;
+    .message-text {
       font-size: 1.1em;
-      color: #333; /* 深灰文字 */
+      color: #571f2b; /* 新的留言文字顏色 */
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .timestamp {
+      font-size: 10px;
+      color: #bbb;
+      text-align: right;
+      margin-top: 5px;
     }
 
     .message-actions {
       display: flex;
-      flex-direction: column;
-      margin-right: 10px;
-      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .message-actions button {
       background: none;
       border: none;
+      color: #7baaf7;
       cursor: pointer;
-      font-size: 16px;
-      color: #333; /* 深灰色按鈕 */
-      margin-bottom: 5px;
-      transition: color 0.3s;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     .message-actions button:hover {
-      color: #f0e1c6; /* 米色 */
+      background-color: #ffe8a3;
+      color: #5b4636;
     }
 
-    .options-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 22px;
-      padding: 5px;
-      margin-left: 10px;
-      color: #333; /* 深灰色三條槓 */
-      transition: color 0.3s;
+    .reply-section {
+      margin-top: 15px;
+      padding-left: 20px;
+      border-left: 3px solid #ffe8a3;
     }
 
-    .options-btn:hover {
-      color: #f0e1c6; /* 米色 */
-    }
-
-    .options-menu {
-      display: none;
-      position: absolute;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    .reply {
+      background-color: #f0f0f0;
       padding: 10px;
-      top: 10px;
-      right: 0;
-      width: 150px;
-      z-index: 10;
+      border-radius: 8px;
+      margin-top: 10px;
+      position: relative;
     }
 
-    .options-menu button {
+    .reply-actions {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+    }
+
+    .reply-actions button {
       background: none;
       border: none;
-      color: #333;
-      padding: 8px;
-      width: 100%;
-      text-align: left;
-      font-size: 14px;
+      color: #7baaf7;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .options-menu button:hover {
-      background-color: #f0e1c6; /* 米色 */
-    }
-
-    .timestamp {
-      display: block;
       font-size: 12px;
-      margin-top: 8px;
-      color: #bbb;
-      text-align: right;
+      padding: 2px 5px;
+      border-radius: 5px;
     }
 
     #status {
       margin-top: 10px;
       text-align: center;
       font-size: 14px;
-    }
-
-    .reply-section {
-      margin-top: 10px;
-      padding-left: 20px;
-      font-size: 14px;
-      border-left: 2px solid #f0e1c6; /* 回覆區域 */
-    }
-
-    .reply {
-      background-color: #e9e9e9; /* 淺灰色背景回覆 */
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      border-left: 2px solid #f0e1c6;
-      font-size: 1em;
+      color: #5b4636;
     }
   </style>
 </head>
-<body>
 
+<body>
 <div class="container">
   <h1>留言板</h1>
-  <textarea id="messageInput" placeholder="寫下你的留言吧！"></textarea>
+  <textarea id="messageInput" placeholder="想說點什麼呢？"></textarea>
   <button id="submitMessage">送出留言</button>
   <div id="status"></div>
   <div id="messagesContainer"></div>
 </div>
-
-<!-- 引入 Emoji Picker -->
-<emoji-picker></emoji-picker>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -210,7 +173,7 @@
     apiKey: "AIzaSyDyBaZ1MSD8xzAWDQbQTGfeUvWuFduN6JU",
     authDomain: "memo-12bb0.firebaseapp.com",
     projectId: "memo-12bb0",
-    storageBucket: "memo-12bb0.firebasestorage.app",
+    storageBucket: "memo-12bb0.appspot.com",
     messagingSenderId: "382245872696",
     appId: "1:382245872696:web:aa987849776edfe8e2b2cd"
   };
@@ -225,12 +188,10 @@
 
   submitButton.addEventListener("click", async () => {
     const messageText = messageInput.value.trim();
-    if (!messageText) {
-      return;
-    }
+    if (!messageText) return;
 
     if (messageText.length > 300) {
-      status.innerText = "❌ 留言內容超過 300 字！";
+      status.innerText = "❌ 留言超過300字！";
       status.style.color = "#ff1744";
       return;
     }
@@ -241,124 +202,113 @@
         timestamp: serverTimestamp()
       });
       messageInput.value = "";
-      status.innerText = "✅ 留言已送出！";
+      status.innerText = "✅ 留言送出成功！";
       status.style.color = "#00e676";
       loadMessages();
     } catch (error) {
-      console.error("送出留言失敗: ", error);
-      status.innerText = "❌ 留言送出失敗，請稍後再試。";
+      console.error("送出留言失敗:", error);
+      status.innerText = "❌ 發送失敗，請再試一次。";
       status.style.color = "#ff1744";
     }
 
-    setTimeout(() => {
-      status.innerText = "";
-    }, 3000);
+    setTimeout(() => status.innerText = "", 3000);
   });
 
   async function loadMessages() {
     const querySnapshot = await getDocs(collection(db, "messages"));
-    messagesContainer.innerHTML = ""; // 清空現有的留言
+    messagesContainer.innerHTML = "";
 
-    querySnapshot.forEach((docSnapshot) => {
+    querySnapshot.forEach(docSnapshot => {
       const messageData = docSnapshot.data();
+      if (messageData.replyTo) return; // 只載入主留言
+
       const messageElement = document.createElement("div");
       messageElement.classList.add("message");
 
-      // 操作按鈕
-      const actions = document.createElement("div");
-      actions.classList.add("message-actions");
-
-      const deleteButton = document.createElement("button");
-      deleteButton.innerText = "刪除";
-      deleteButton.addEventListener("click", async () => {
-        try {
-          await deleteDoc(doc(db, "messages", docSnapshot.id));
-          loadMessages(); // 刪除後重新加載留言
-        } catch (error) {
-          console.error("刪除留言失敗: ", error);
-          status.innerText = "❌ 刪除留言失敗，請稍後再試。";
-          status.style.color = "#ff1744";
-        }
-      });
-
-      const editButton = document.createElement("button");
-      editButton.innerText = "編輯";
-      editButton.addEventListener("click", () => {
-        messageInput.value = messageData.text; // 填入留言內容
-        status.innerText = "✍️ 編輯留言中...";
-        status.style.color = "#f0e1c6";
-      });
-
-      const replyButton = document.createElement("button");
-      replyButton.innerText = "回覆";
-      replyButton.addEventListener("click", () => {
-        const replySection = document.createElement("div");
-        replySection.classList.add("reply-section");
-        replySection.innerHTML = `<textarea placeholder="寫下你的回覆..."></textarea><button class="submitReply">送出回覆</button>`;
-        
-        messageElement.appendChild(replySection);
-
-        const replySubmitButton = replySection.querySelector(".submitReply");
-        replySubmitButton.addEventListener("click", async () => {
-          const replyText = replySection.querySelector("textarea").value.trim();
-          if (replyText) {
-            try {
-              await addDoc(collection(db, "messages"), {
-                text: `回覆: ${replyText}`,
-                timestamp: serverTimestamp(),
-                replyTo: docSnapshot.id // 這個留言的 ID
-              });
-              loadMessages();
-            } catch (error) {
-              console.error("回覆留言失敗: ", error);
-              status.innerText = "❌ 回覆留言失敗，請稍後再試。";
-              status.style.color = "#ff1744";
-            }
-          }
-        });
-      });
-
-      actions.appendChild(deleteButton);
-      actions.appendChild(editButton);
-      actions.appendChild(replyButton);
-
-      messageElement.appendChild(actions);
-
-      // 留言文字
-      const textSpan = document.createElement("span");
+      const textSpan = document.createElement("div");
+      textSpan.classList.add("message-text");
       textSpan.innerText = messageData.text;
       messageElement.appendChild(textSpan);
 
-      // 時間戳記
-      const timestampSpan = document.createElement("span");
-      timestampSpan.classList.add("timestamp");
-      timestampSpan.innerText = `🕒 ${new Date(messageData.timestamp.seconds * 1000).toLocaleString()}`;
-      messageElement.appendChild(timestampSpan);
+      const timestamp = document.createElement("div");
+      timestamp.classList.add("timestamp");
+      timestamp.innerText = `🕒 ${new Date(messageData.timestamp.seconds * 1000).toLocaleString()}`;
+      messageElement.appendChild(timestamp);
+
+      const actions = document.createElement("div");
+      actions.classList.add("message-actions");
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "刪除";
+      deleteBtn.addEventListener("click", async () => {
+        await deleteDoc(doc(db, "messages", docSnapshot.id));
+        loadMessages();
+      });
+
+      const replyBtn = document.createElement("button");
+      replyBtn.innerText = "回覆";
+      replyBtn.addEventListener("click", () => {
+        const replyInput = document.createElement("textarea");
+        replyInput.placeholder = "寫下你的回覆...";
+        const replySubmit = document.createElement("button");
+        replySubmit.innerText = "送出回覆";
+        replySubmit.addEventListener("click", async () => {
+          const replyText = replyInput.value.trim();
+          if (replyText) {
+            await addDoc(collection(db, "messages"), {
+              text: replyText,
+              timestamp: serverTimestamp(),
+              replyTo: docSnapshot.id
+            });
+            loadMessages();
+          }
+        });
+        messageElement.appendChild(replyInput);
+        messageElement.appendChild(replySubmit);
+      });
+
+      actions.appendChild(deleteBtn);
+      actions.appendChild(replyBtn);
+      messageElement.appendChild(actions);
 
       messagesContainer.appendChild(messageElement);
 
-      // 加載回覆留言（如果有）
       loadReplies(docSnapshot.id, messageElement);
     });
   }
 
   async function loadReplies(parentId, messageElement) {
     const querySnapshot = await getDocs(collection(db, "messages"));
-    querySnapshot.forEach((docSnapshot) => {
-      const messageData = docSnapshot.data();
+    const replySection = document.createElement("div");
+    replySection.classList.add("reply-section");
 
-      if (messageData.replyTo === parentId) {
+    querySnapshot.forEach(docSnapshot => {
+      const replyData = docSnapshot.data();
+      if (replyData.replyTo === parentId) {
         const replyElement = document.createElement("div");
         replyElement.classList.add("reply");
-        replyElement.innerText = messageData.text;
-        messageElement.appendChild(replyElement);
+        replyElement.innerHTML = `
+          <div class="reply-text">${replyData.text}</div>
+          <div class="timestamp">🕒 ${new Date(replyData.timestamp.seconds * 1000).toLocaleString()}</div>
+          <div class="reply-actions">
+            <button onclick="deleteReply('${docSnapshot.id}')">刪除</button>
+          </div>
+        `;
+        replySection.appendChild(replyElement);
       }
     });
+
+    if (replySection.hasChildNodes()) {
+      messageElement.appendChild(replySection);
+    }
   }
 
-  loadMessages(); // 初次加載留言
+  window.deleteReply = async function(id) {
+    await deleteDoc(doc(db, "messages", id));
+    loadMessages();
+  }
+
+  loadMessages();
 </script>
 </body>
 </html>
-
-
